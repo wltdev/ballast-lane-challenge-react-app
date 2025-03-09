@@ -1,17 +1,31 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/useAuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      await login(email, password);
+      navigate("/projects");
+    } catch (error) {
+      console.error("Login failed", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simple mock login - in a real app, you would validate with a backend
     if (email && password) {
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/projects');
+      handleLogin();
     }
   };
 
@@ -54,9 +68,10 @@ export default function Login() {
           <div>
             <button
               type="submit"
+              disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign in
+              {isLoading ? "Loading..." : "Sign in"}
             </button>
           </div>
         </form>

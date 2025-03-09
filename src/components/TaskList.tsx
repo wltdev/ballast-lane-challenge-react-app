@@ -28,13 +28,12 @@ const TaskList: FC<TaskListProps> = ({ tasks, onTasksChange }) => {
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) return;
 
-    const newTask: Task = {
-      id: Date.now(),
+    const newTask = {
       title: newTaskTitle,
       status: "pending",
     };
 
-    onTasksChange([...tasks, newTask]);
+    onTasksChange([...tasks, newTask as Task]);
     setNewTaskTitle("");
   };
 
@@ -73,7 +72,7 @@ const TaskList: FC<TaskListProps> = ({ tasks, onTasksChange }) => {
   const getStatusColor = (status: Task["status"]) => {
     switch (status) {
       case "pending":
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-300 text-gray-800";
       case "in_progress":
         return "bg-blue-100 text-blue-800";
       case "completed":

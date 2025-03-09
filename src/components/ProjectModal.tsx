@@ -2,12 +2,14 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import TaskList, { Task } from "./TaskList";
 import { CheckIcon } from "@heroicons/react/24/outline";
+import { getUser } from "../utils/storage";
 
 interface Project {
   id: number;
   name: string;
   description: string;
   tasks: Task[];
+  user_id: number;
 }
 
 interface ProjectModalProps {
@@ -40,17 +42,18 @@ export default function ProjectModal({
     }
   }, [project]);
 
-  const handleSaveProject = (e: React.FormEvent) => {
+  const handleSaveProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!project) return;
+    const user = await getUser();
 
     onSave({
       ...project,
+      user_id: user?.id,
       name: projectName,
       description: projectDescription,
       tasks: tasks,
     });
-    onClose();
   };
 
   return (
@@ -84,7 +87,7 @@ export default function ProjectModal({
                   as="h3"
                   className="text-xl font-medium leading-6 text-gray-900 mb-4"
                 >
-                  Edit Project
+                  {project?.id ? "Edit Project" : "Add Project"}
                 </Dialog.Title>
 
                 <form onSubmit={handleSaveProject}>
@@ -105,9 +108,10 @@ export default function ProjectModal({
                           <input
                             type="text"
                             id="projectName"
+                            placeholder="Enter project name"
                             value={projectName}
                             onChange={(e) => setProjectName(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                            className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
                             required
                           />
                         </div>
@@ -120,12 +124,13 @@ export default function ProjectModal({
                           </label>
                           <textarea
                             id="projectDescription"
+                            placeholder="Enter project description"
                             value={projectDescription}
                             onChange={(e) =>
                               setProjectDescription(e.target.value)
                             }
                             rows={3}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                            className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
                           />
                         </div>
                       </div>
