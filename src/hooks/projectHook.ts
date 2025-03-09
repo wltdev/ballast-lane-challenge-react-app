@@ -73,10 +73,10 @@ export const useProject = () => {
         responseData = data.data;
       } else {
         // Add new project
-        const { data } = await api.post<{ data: Project }>("/projects", {
-          ...updatedProject,
-          tasks: [],
-        });
+        const { data } = await api.post<{ data: Project }>(
+          "/projects",
+          updatedProject
+        );
 
         responseData = data.data;
       }
@@ -85,6 +85,18 @@ export const useProject = () => {
 
       toast.success("Project saved successfully");
       setIsProjectModalOpen(false);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleDeleteProject = async (id: number) => {
+    try {
+      await api.delete(`/projects/${id}`);
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project.id !== id)
+      );
+      toast.success("Project deleted successfully");
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -107,5 +119,6 @@ export const useProject = () => {
     handleEditProject,
     handleSaveProject,
     setIsProjectModalOpen,
+    handleDeleteProject,
   };
 };

@@ -1,10 +1,12 @@
-import { FC } from "react";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { FC, useState } from "react";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { DeleteModal } from "./DeleteModal";
 
 export interface Project {
   id: number;
   name: string;
   description: string;
+  user_id: number;
   tasks: Task[];
 }
 
@@ -17,9 +19,16 @@ export interface Task {
 type Props = {
   project: Project;
   handleEditProject: (project: Project) => void;
+  handleDeleteProject: (id: number) => void;
 };
 
-export const Project: FC<Props> = ({ project, handleEditProject }) => {
+export const Project: FC<Props> = ({
+  project,
+  handleEditProject,
+  handleDeleteProject,
+}) => {
+  const [modelDelete, setModelDelete] = useState(false);
+
   const getStatusColor = (status: Task["status"]) => {
     switch (status) {
       case "pending":
@@ -38,6 +47,11 @@ export const Project: FC<Props> = ({ project, handleEditProject }) => {
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
+  };
+
+  const handleDelete = () => {
+    handleDeleteProject(project.id);
+    setModelDelete(false);
   };
 
   return (
@@ -71,12 +85,22 @@ export const Project: FC<Props> = ({ project, handleEditProject }) => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end items-center mt-6">
+        <div className="flex justify-between items-center mt-6 gap-4">
+          <TrashIcon
+            className="w-6 h-6 text-red-500 cursor-pointer"
+            onClick={() => setModelDelete(true)}
+          />
           <PencilSquareIcon
             className="w-6 h-6 text-gray-500 cursor-pointer"
             onClick={() => handleEditProject(project)}
           />
         </div>
+
+        <DeleteModal
+          isOpen={modelDelete}
+          onClose={() => setModelDelete(false)}
+          onConfirm={handleDelete}
+        />
       </div>
     </div>
   );

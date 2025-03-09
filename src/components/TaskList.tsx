@@ -100,12 +100,12 @@ const TaskList: FC<TaskListProps> = ({ tasks, onTasksChange }) => {
           placeholder="New task title"
           value={newTaskTitle}
           onChange={(e) => setNewTaskTitle(e.target.value)}
-          className="block w-full px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+          className="block w-full px-3 rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm text-gray-900"
         />
         <button
           type="button"
           onClick={handleAddTask}
-          className="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="ml-2 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <PlusIcon className="w-5 h-5" />
         </button>
@@ -120,14 +120,14 @@ const TaskList: FC<TaskListProps> = ({ tasks, onTasksChange }) => {
               type="text"
               value={editingTaskTitle}
               onChange={(e) => setEditingTaskTitle(e.target.value)}
-              className="block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+              className="block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm text-gray-900"
             />
             <select
               value={editingTaskStatus}
               onChange={(e) =>
                 setEditingTaskStatus(e.target.value as Task["status"])
               }
-              className="ml-2 block rounded-md px-3 py-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+              className="ml-2 block rounded-md px-3 py-2 border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm text-gray-900"
             >
               <option value="pending">Pending</option>
               <option value="in_progress">In Progress</option>

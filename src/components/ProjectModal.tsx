@@ -52,7 +52,7 @@ export default function ProjectModal({
       user_id: user?.id,
       name: projectName,
       description: projectDescription,
-      tasks: tasks,
+      tasks,
     });
   };
 
@@ -63,12 +63,12 @@ export default function ProjectModal({
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
-          enterTo="opacity-100"
+          enterTo="opacity-50"
           leave="ease-in duration-200"
-          leaveFrom="opacity-100"
+          leaveFrom="opacity-50"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black opacity-50" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">

@@ -27,6 +27,7 @@ export default function Projects() {
     handleAddProject,
     handleEditProject,
     handleSaveProject,
+    handleDeleteProject,
   } = useProject();
 
   return (
@@ -74,6 +75,7 @@ export default function Projects() {
                   key={project.id}
                   project={project}
                   handleEditProject={handleEditProject}
+                  handleDeleteProject={handleDeleteProject}
                 />
               ))
             ) : (
